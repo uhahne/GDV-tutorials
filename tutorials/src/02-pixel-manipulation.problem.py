@@ -8,8 +8,11 @@ import cv2
 import numpy as np # we will need numpy for some array manipulations
 
 # TODO Loading images in grey and color and store them in the variables 'img_gray' and 'img_color'.
+img_color = cv2.imread("tutorials/data/images/logo.png", cv2.IMREAD_COLOR)
 
 # TODO Check if images have been loaded successfully.
+if img_color is None:
+    raise FileNotFoundError("file not found")
 
 ## Image data access
 
@@ -25,6 +28,14 @@ import numpy as np # we will need numpy for some array manipulations
 ## This makes your code flexible and independent from the actual image size.
 
 # TODO Resize the image to a small size (7x5) as we will later print out the pixel values.
+img = cv2.resize(img_color, (7,5))
+
+img[0:2, 0:4] = [0,0,255]
+
+print(img.flat[:])
+
+img = cv2.resize(img, (280,200), interpolation=cv2.INTER_NEAREST)
+
 
 # HINT: Row and column access, see https://numpy.org/doc/stable/reference/arrays.ndarray.html for 
 # general access on ndarrays
@@ -36,7 +47,12 @@ import numpy as np # we will need numpy for some array manipulations
 # TODO Now continue with the color image by copying it to the variable 'img'.
 
 # TODO Set an area of the image to black by looping over the pixels and setting the pixel values to [0,0,0].
+for r in range(img.shape[0]):
+    for c in range(10, img.shape[1],3):
+        img[r,c,:] = (0,0,0)
 
+cv2.imshow("small image", img)
+cv2.waitKey(0)
 # TODO Create a window with 'namedWindow' and show the image and wait until key pressed.
 
 # TODO Find all used colors in the image by first reshaping the image to a list of pixels with 'reshape' 
